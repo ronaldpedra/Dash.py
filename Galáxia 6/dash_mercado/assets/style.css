@@ -1,9 +1,33 @@
+.Select-menu-outer{
+    background-color: #131516 !important;
+}
+
+.Select-menu-outer ::-webkit-scrollbar-track{
+    background: rgb(59, 59, 59);
+}
+
+.Select-menu-outer ::-webkit-scrollbar{
+    width: 10px;
+}
+
+.Select-menu-outer ::-webkit-scrollbar-thumb{
+    background: rgb(255, 255, 255);
+}
+
+.Select-value-label{
+    color: #F2F4F8 !important;
+}
 
 .titulos-do-dash{
 
     color: white;
-    border: 1px solid #08F7FE;
-    border-radius: 8px;
+    border: 2px solid #08F7FE;
+    border-radius: 20px;
     padding: 8px;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 18px;
 
 }
+
