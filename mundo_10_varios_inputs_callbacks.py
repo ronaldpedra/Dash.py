@@ -109,7 +109,10 @@ app.layout = html.Main(
                 html.H1(children='Gráfico de Inflação', style={'color':'white', 'border':'1px solid #08F7FE', 'border-radius':'8px', 'padding':'8px'}), 
                 style={'display':'flex', 'justify-content':'center'}),
 
-            html.Div(dcc.Dropdown(['IPCA', 'IGP-M'], 'IPCA', id='drop_infla_callback')),
+            html.Div([
+                dcc.Dropdown(['IPCA', 'IGP-M'], 'IPCA', id='drop_infla_callback'),
+                dcc.Dropdown(['6', '12', '24'], '6', id='drop_infla_callback_periodo')
+                ]),
 
             html.Div(children=dcc.Graph(id='grafico_com_callback')
             )
@@ -121,19 +124,20 @@ app.layout = html.Main(
 
 @app.callback(
     Output('grafico_com_callback', 'figure'),
-    Input('drop_infla_callback', 'value')
+    Input('drop_infla_callback', 'value'),
+    Input('drop_infla_callback_periodo', 'value')
 )
-def criando_grafico_infla(valor_do_dropdown):
+def criando_grafico_infla(valor_do_dropdown_indicador, valor_do_dropdown_periodo):
     
     dados_inflacao = sgs.get({'ipca':433, 'igp-m':189})
     dados_inflacao = dados_inflacao.dropna()
     dados_inflacao = dados_inflacao / 100
-    dados_inflacao = dados_inflacao.iloc[-6:, :]
+    dados_inflacao = dados_inflacao.iloc[-(int(valor_do_dropdown_periodo)):, :]
 
-    if valor_do_dropdown == 'IPCA':
+    if valor_do_dropdown_indicador == 'IPCA':
         dados_inflacao = dados_inflacao['ipca']
         
-    elif valor_do_dropdown == 'IGP-M':
+    elif valor_do_dropdown_indicador == 'IGP-M':
         dados_inflacao = dados_inflacao['igp-m']
     
     layout = go.Layout(yaxis=dict(tickformat='.1%', tickfont=dict(color='black')),
@@ -142,7 +146,7 @@ def criando_grafico_infla(valor_do_dropdown):
     fig_inflacao = go.Figure(layout=layout)
 
     fig_inflacao.add_trace(go.Bar(x=dados_inflacao.index, y=dados_inflacao.values,
-                                  marker_color='blue', name=valor_do_dropdown))
+                                  marker_color='blue', name=valor_do_dropdown_indicador))
     return fig_inflacao
 
 if __name__ == '__main__':
