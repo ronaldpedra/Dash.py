@@ -12,7 +12,7 @@ cotacoes = cotacoes.iloc[-1, :]
 cotacoes = cotacoes.to_frame()
 cotacoes = cotacoes.reset_index()
 cotacoes.columns = ['Ticker', 'Preço']
-cotacoes['Ticker'] = ticker
+cotacoes['Ticker'] = sorted(ticker)
 cotacoes['Preço'] = cotacoes['Preço'].astype(float).round(2)
 
 cotacoes_candle = yf.download(ticker_yahoo[0], start=(datetime.date.today() - datetime.timedelta(days=15)))

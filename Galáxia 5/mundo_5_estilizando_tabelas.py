@@ -11,7 +11,7 @@ cotacoes = cotacoes.iloc[-1, :]
 cotacoes = cotacoes.to_frame()
 cotacoes = cotacoes.reset_index()
 cotacoes.columns = ['Ticker', 'Preço']
-cotacoes['Ticker'] = ticker
+cotacoes['Ticker'] = sorted(ticker)
 cotacoes['Preço'] = cotacoes['Preço'].astype(float).round(2)
 
 app = Dash(__name__)
